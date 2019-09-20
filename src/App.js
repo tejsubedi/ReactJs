@@ -8,21 +8,23 @@ class App extends Component {
     super(props);
 
     this.state = {
-      user: []
+      users: []
     };
 
   };
 
   componentWillMount() {
     axios(`https://api.randomuser.me/?nat=US&results=5`)
-      .then((response)=>console.log(response));
+      .then((response)=>this.setState({
+        users: response.data.results
+      }));
   }
 
 
   render() {
     return (
       <div className="container">
-        <h1>Hello React</h1>
+        {this.state.users.map(user => <div>{user.cell}</div>)}
       </div>
     );
   }
