@@ -11,6 +11,8 @@ class App extends Component {
       loading: false,
     };
 
+    this.handleSubmit = this.handleSubmit.bind(this);
+
   };
 
   getUsers() {
@@ -20,18 +22,26 @@ class App extends Component {
 
     axios(`https://api.randomuser.me/?nat=US&results=5`)
     .then((response)=>this.setState({
-      users: response.data.results,
+      users: [...this.state.users, ...response.data.results],
       loading: false
 
 
     }));
 
 
+  };
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.getUsers();
+    console.log('More users loaded');
   }
 
   componentWillMount() {
     this.getUsers();
   };
+
+  
 
 
   render() {
@@ -42,6 +52,9 @@ class App extends Component {
             <h3>{user.name.first} </h3>
             <h6>{user.email} </h6>
             <hr/>
+            <form  onSubmit={this.handleSubmit}>
+              <input type="submit" value="load users" />
+            </form>
             </div>): (<Loading message = "Hello this page is loading....."/>)}
       </div>
     );
