@@ -24,7 +24,14 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        {this.state.users.map(user => <div>{user.cell}</div>)}
+        {this.state.users.map(user => 
+          <div>
+            <h3>{user.name.first}</h3>
+            <hr/>
+            <h3>{user.cell}</h3>
+            <hr/>
+            <h3>{user.name.last}</h3>
+            </div>)}
       </div>
     );
   }
