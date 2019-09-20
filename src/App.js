@@ -2,36 +2,46 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 
-
 class App extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      users: []
+      users: [],
+      loading: false,
     };
 
   };
 
-  componentWillMount() {
+  getUsers() {
+    this.setState({
+      loading: true,
+    });
+
     axios(`https://api.randomuser.me/?nat=US&results=5`)
-      .then((response)=>this.setState({
-        users: response.data.results
-      }));
+    .then((response)=>this.setState({
+      users: response.data.results,
+      loading: false
+
+
+    }));
+
+
   }
+
+  componentWillMount() {
+    this.getUsers();
+  };
 
 
   render() {
     return (
       <div className="container">
-        {this.state.users.map(user => 
+        {!this.state.loading ? this.state.users.map(user => 
           <div>
-            <h3>{user.name.first}</h3>
+            <h3>{user.name.first} </h3>
+            <h6>{user.email} </h6>
             <hr/>
-            <h3>{user.cell}</h3>
-            <hr/>
-            <h3>{user.name.last}</h3>
-            </div>)}
+            </div>): 'loading'}
       </div>
     );
   }
